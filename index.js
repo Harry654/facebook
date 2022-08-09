@@ -9,7 +9,7 @@ let error = document.getElementById("error");
 function fadeIn(target, speed){
     // fade in effect
     let opacity = .1;
-    let timer = setInterval(function(){
+    let timer = setInterval(() => {
         if (opacity >= 1){
             clearInterval(timer);
             if(target.getAttribute("id") == "WelcomeScreen"){
@@ -28,7 +28,7 @@ function fadeIn(target, speed){
 fadeIn(WelcomeScreen, .01);
 
 document.addEventListener("keypress", function(event){
-    if(event.keyCode == 13 || event.keyCode == 114){
+    if(event.keyCode == 13 || event.key == "q"){
         event.preventDefault();
         login_btn.click();
     }
@@ -94,20 +94,22 @@ let newsFeed = [
 ];
 
 
-function isUserValid(username, password){
-    for(var i = 0; i < database.length; i++){
-        if(username === database[i].username && password === database[i].password) return true;
-    }
-    return false;
+let isUserValid = (username, password) => {
+    return new Promise((resolve, reject) => {
+        for(var i = 0; i < database.length; i++){
+            if(username.toLowerCase() === database[i].username.toLowerCase() && password === database[i].password) resolve("user exists");
+        }
+        reject("user does not exists");
+    });
 }
 function signIn(username, password){
-    if(isUserValid(username, password)){
+    isUserValid(username, password)
+    .then(() => {
         loadHomePage(username);
-
-    }else{
-        // error.style.visibility = "visible";
+    })
+    .catch(() => {
         fadeIn(error, .05);
-    }
+    })
 }
 function loginClicked(){
     if (username.value.trim() && password.value)
