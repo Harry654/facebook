@@ -30,3 +30,5 @@ Usable login details
         password: "123"
     
 site-url: https://f-ake-book.netlify.app
+<img src="./fakebook-screenshot-1.png" alt="screenshot-1" />
+<img src="./fakebook-screenshot-2.png" alt="screenshot-2" />
